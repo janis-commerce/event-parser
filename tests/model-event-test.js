@@ -49,7 +49,7 @@ describe('EventParser', () => {
 	});
 
 	it('should return undefined when does not receive entity or event', () => {
-		assert.deepStrictEqual(modelEvent.getAction(), undefined);
+		assert.deepStrictEqual(modelEvent.getEvent(), undefined);
 	});
 
 	it('should return the event return by model package', () => {
@@ -78,6 +78,6 @@ describe('EventParser', () => {
 			})
 			.returns(getEvent);
 
-		assert.deepStrictEqual(modelEvent.getAction('core', 'test', 'testing'), getEvent);
+		assert.deepStrictEqual(modelEvent.getEvent('core', 'test', 'testing'), getEvent);
 	});
 });

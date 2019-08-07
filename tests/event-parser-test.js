@@ -40,21 +40,21 @@ describe('EventParser', () => {
 	});
 
 	it('should throw error when not receive params', async () => {
-		await assert.rejects(eventParser.getEvent(), {
+		await assert.rejects(eventParser.getActions(), {
 			name: 'EventParserError',
 			message: 'message object is required'
 		});
 	});
 
 	it('should throw error when not receive entity', async () => {
-		await assert.rejects(eventParser.getEvent({}), {
+		await assert.rejects(eventParser.getActions({}), {
 			name: 'EventParserError',
 			message: 'message entity and event are required'
 		});
 	});
 
 	it('should throw error when not receive event', async () => {
-		await assert.rejects(eventParser.getEvent({ entity: 'test' }), {
+		await assert.rejects(eventParser.getActions({ entity: 'test' }), {
 			name: 'EventParserError',
 			message: 'message entity and event are required'
 		});
@@ -64,7 +64,7 @@ describe('EventParser', () => {
 		sandbox.stub(ModelEvent.prototype, 'get').returns([]);
 
 		const { client, entity, event } = message;
-		await assert.rejects(eventParser.getEvent(message), {
+		await assert.rejects(eventParser.getActions(message), {
 			name: 'EventParserError',
 			message: `Event not found with params provided client: ${client}, entity: ${entity}, event: ${event}`
 		});
@@ -75,7 +75,7 @@ describe('EventParser', () => {
 		event.actions = [];
 		sandbox.stub(ModelEvent.prototype, 'get').returns([event]);
 
-		await assert.rejects(eventParser.getEvent(message), {
+		await assert.rejects(eventParser.getActions(message), {
 			name: 'EventParserError',
 			message: 'Event does not have any associated action'
 		});
@@ -84,7 +84,7 @@ describe('EventParser', () => {
 	it('should return the action', async () => {
 		sandbox.stub(ModelEvent.prototype, 'get').returns([getEvent]);
 
-		const actions = await eventParser.getEvent(message);
+		const actions = await eventParser.getActions(message);
 		assert.deepStrictEqual(actions, getEvent.actions);
 	});
 });
