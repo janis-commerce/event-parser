@@ -8,8 +8,6 @@ const Package = require('./../index');
 
 const { EventParser, ModelEvent } = require('./../lib');
 
-const eventParser = new EventParser();
-
 describe('EventParser', () => {
 	const message = {
 		client: 'core',
@@ -21,7 +19,7 @@ describe('EventParser', () => {
 		client: 'core',
 		entity: 'test',
 		event: 'testing',
-		actions: [
+		subscribers: [
 			{
 				source: 'shipping',
 				client: 'core/client',
@@ -40,51 +38,45 @@ describe('EventParser', () => {
 	});
 
 	it('should throw error when not receive params', async () => {
-		await assert.rejects(eventParser.getActions(), {
+		await assert.rejects(EventParser.getSubscribers(), {
 			name: 'EventParserError',
 			message: 'message is required'
 		});
 	});
 
 	it('should throw error when not receive entity', async () => {
-		await assert.rejects(eventParser.getActions({}), {
+		await assert.rejects(EventParser.getSubscribers({}), {
 			name: 'EventParserError',
 			message: 'message entity and event are required'
 		});
 	});
 
 	it('should throw error when not receive event', async () => {
-		await assert.rejects(eventParser.getActions({ entity: 'test' }), {
+		await assert.rejects(EventParser.getSubscribers({ entity: 'test' }), {
 			name: 'EventParserError',
 			message: 'message entity and event are required'
 		});
 	});
 
-	it('should throw error when not found any event', async () => {
+	it('should return empty array when not found event', async () => {
 		sandbox.stub(ModelEvent.prototype, 'get').returns([]);
-
-		const { client, entity, event } = message;
-		await assert.rejects(eventParser.getActions(message), {
-			name: 'EventParserError',
-			message: `Event not found with params provided client: '${client}', entity: '${entity}', event: '${event}'`
-		});
+		const subscribers = await EventParser.getSubscribers(message);
+		assert.deepStrictEqual(subscribers, []);
 	});
 
-	it('should throw error when not found any actions associated with the event', async () => {
+	it('should return empty array when not found subscribers', async () => {
 		const event = { ...getEvent };
-		event.actions = [];
+		event.subscribers = [];
 		sandbox.stub(ModelEvent.prototype, 'get').returns([event]);
 
-		await assert.rejects(eventParser.getActions(message), {
-			name: 'EventParserError',
-			message: 'Event does not have any associated action'
-		});
+		const subscribers = await EventParser.getSubscribers(message);
+		assert.deepStrictEqual(subscribers, []);
 	});
 
 	it('should return the action', async () => {
 		sandbox.stub(ModelEvent.prototype, 'get').returns([getEvent]);
 
-		const actions = await eventParser.getActions(message);
-		assert.deepStrictEqual(actions, getEvent.actions);
+		const subscribers = await EventParser.getSubscribers(message);
+		assert.deepStrictEqual(subscribers, getEvent.subscribers);
 	});
 });
