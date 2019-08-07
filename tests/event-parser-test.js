@@ -42,7 +42,7 @@ describe('EventParser', () => {
 	it('should throw error when not receive params', async () => {
 		await assert.rejects(eventParser.getActions(), {
 			name: 'EventParserError',
-			message: 'message object is required'
+			message: 'message is required'
 		});
 	});
 
@@ -66,7 +66,7 @@ describe('EventParser', () => {
 		const { client, entity, event } = message;
 		await assert.rejects(eventParser.getActions(message), {
 			name: 'EventParserError',
-			message: `Event not found with params provided client: ${client}, entity: ${entity}, event: ${event}`
+			message: `Event not found with params provided client: '${client}', entity: '${entity}', event: '${event}'`
 		});
 	});
 
