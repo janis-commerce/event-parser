@@ -4,9 +4,9 @@ const assert = require('assert');
 
 const sandbox = require('sinon').createSandbox();
 
-const Package = require('./../index');
+const Package = require('../index');
 
-const { EventParser, ModelEvent } = require('./../lib');
+const { EventParser, ModelEvent } = require('../lib');
 
 describe('EventParser', () => {
 	const message = {
