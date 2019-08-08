@@ -58,8 +58,9 @@ describe('EventParser', () => {
 		});
 	});
 
-	it('should return empty array when not found event', async () => {
-		sandbox.stub(ModelEvent.prototype, 'get').returns([]);
+	it('should return empty array when event is an empty object', async () => {
+		sandbox.stub(ModelEvent.prototype, 'get').returns({});
+
 		const subscribers = await EventParser.getSubscribers(message);
 		assert.deepStrictEqual(subscribers, []);
 	});
@@ -73,7 +74,7 @@ describe('EventParser', () => {
 		assert.deepStrictEqual(subscribers, []);
 	});
 
-	it('should return the action', async () => {
+	it('should return the subscribers', async () => {
 		sandbox.stub(ModelEvent.prototype, 'get').returns([getEvent]);
 
 		const subscribers = await EventParser.getSubscribers(message);

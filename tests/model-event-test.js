@@ -48,24 +48,22 @@ describe('EventParser', () => {
 		assert.strictEqual(ModelEvent.table, 'testing');
 	});
 
-	it('should return undefined when does not receive entity or event', () => {
-		assert.deepStrictEqual(modelEvent.getEvent(), undefined);
+	it('should return undefined when does not receive entity or event', async () => {
+		await assert.rejects(modelEvent.getEvent(), {
+			name: 'ModelEventError',
+			message: 'Entity and event are required and must be strings'
+		});
 	});
 
-	it('should return the event return by model package', () => {
-		const getEvent = {
-			client: 'core',
-			entity: 'test',
-			event: 'testing',
-			actions: [
-				{
-					source: 'shipping',
-					client: 'core/client',
-					entity: 'order',
-					event: 'create'
-				}
-			]
-		};
+	it('should return the event return by model package', async () => {
+		const events = [
+			{
+				client: 'core',
+				entity: 'test',
+				event: 'testing',
+				subscribers: ['https://test@test.com']
+			}
+		];
 		sandbox
 			.stub(Model.prototype, 'get')
 			.withArgs({
@@ -76,8 +74,9 @@ describe('EventParser', () => {
 				},
 				limit: 1
 			})
-			.returns(getEvent);
+			.returns(events);
 
-		assert.deepStrictEqual(modelEvent.getEvent('core', 'test', 'testing'), getEvent);
+		const event = await modelEvent.getEvent('core', 'test', 'testing');
+		assert.deepStrictEqual(event, events[0]);
 	});
 });
