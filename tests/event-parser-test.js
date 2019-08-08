@@ -19,14 +19,7 @@ describe('EventParser', () => {
 		client: 'core',
 		entity: 'test',
 		event: 'testing',
-		subscribers: [
-			{
-				source: 'shipping',
-				client: 'core/client',
-				entity: 'order',
-				event: 'create'
-			}
-		]
+		subscribers: ['http://test@test.com']
 	};
 
 	afterEach(() => {
@@ -37,24 +30,31 @@ describe('EventParser', () => {
 		assert.deepStrictEqual(Package, EventParser);
 	});
 
-	it('should throw error when not receive params', async () => {
+	it('should throw error when not receive message', async () => {
 		await assert.rejects(EventParser.getSubscribers(), {
 			name: 'EventParserError',
-			message: 'message is required'
+			message: 'Message is required and must be an object'
+		});
+	});
+
+	it('should throw error when message is an array', async () => {
+		await assert.rejects(EventParser.getSubscribers([]), {
+			name: 'EventParserError',
+			message: 'Message is required and must be an object'
 		});
 	});
 
 	it('should throw error when not receive entity', async () => {
 		await assert.rejects(EventParser.getSubscribers({}), {
 			name: 'EventParserError',
-			message: 'message entity and event are required'
+			message: 'Message entity and event are required'
 		});
 	});
 
 	it('should throw error when not receive event', async () => {
 		await assert.rejects(EventParser.getSubscribers({ entity: 'test' }), {
 			name: 'EventParserError',
-			message: 'message entity and event are required'
+			message: 'Message entity and event are required'
 		});
 	});
 
