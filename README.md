@@ -14,12 +14,25 @@ npm install @janiscommerce/event-parser
 ## Settings
 
 This package uses the [Settings](https://www.npmjs.com/package/@janiscommerce/settings) package for handle settings.
-The setting key is `clients` and the available settings are the following
+
+The setting key is `events` and the available settings are the following
 
 | Setting     | Default Value | Description                            |
 | ----------- | ------------- | -------------------------------------- |
 | databaseKey | \_default     | The database key from DB configuration |
-| table       | clients       | The clients table name                 |
+| table       | events        | The events table name                  |
+
+Example: .janiscommerce.json settings
+
+```javascript
+{
+	"events" : {
+		"databaseKey": "your-database-name",
+		"table": "your-table/collection-name"
+	}
+}
+
+```
 
 ## Usage
 
