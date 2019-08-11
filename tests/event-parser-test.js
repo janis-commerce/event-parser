@@ -15,7 +15,7 @@ describe('EventParser', () => {
 		event: 'testing'
 	};
 
-	const getEvent = {
+	const event = {
 		client: 'core',
 		entity: 'test',
 		event: 'testing',
@@ -66,18 +66,16 @@ describe('EventParser', () => {
 	});
 
 	it('Should return empty array when not found subscribers', async () => {
-		const event = { ...getEvent };
-		event.subscribers = [];
-		sandbox.stub(ModelEvent.prototype, 'get').returns([event]);
+		sandbox.stub(ModelEvent.prototype, 'get').returns([{ ...event, subscribers: [] }]);
 
 		const subscribers = await EventParser.getSubscribers(message);
 		assert.deepStrictEqual(subscribers, []);
 	});
 
 	it('Should return the subscribers', async () => {
-		sandbox.stub(ModelEvent.prototype, 'get').returns([getEvent]);
+		sandbox.stub(ModelEvent.prototype, 'get').returns([event]);
 
 		const subscribers = await EventParser.getSubscribers(message);
-		assert.deepStrictEqual(subscribers, getEvent.subscribers);
+		assert.deepStrictEqual(subscribers, event.subscribers);
 	});
 });
