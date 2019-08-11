@@ -13,7 +13,7 @@ npm install @janiscommerce/event-parser
 
 ## Settings
 
-This package uses the [Settings](https://www.npmjs.com/package/@janiscommerce/settings) package for handle settings.
+This package use the [Settings](https://www.npmjs.com/package/@janiscommerce/settings) package for handle settings.
 
 The setting key is `events` and the available settings are the following
 
@@ -59,6 +59,8 @@ Insert into the events table in database declared on your settings
 
 ```
 
+_The expected subscribers are endpoints to deliver the event_
+
 ## Examples
 
 #### Use without client
@@ -74,15 +76,6 @@ Insert into the events table in database declared on your settings
 
 const EventParser = require('@janiscommerce/event-parser');
 const client = await EventParser.getSubscribers(message);
-
-/**
-	Get event with filters
-	{
-		client: core,
-		entity: 'order',
-		event: 'create'
-	}
- */
 
 /**
 	Expected output:
@@ -104,15 +97,6 @@ const client = await EventParser.getSubscribers(message);
 
 const EventParser = require('@janiscommerce/event-parser');
 const client = await EventParser.getSubscribers(message);
-
-/**
-	Get event with filters
-	{
-		client: 'client-name'
-		entity: 'order',
-		event: 'create'
-	}
- */
 
 /**
 	Expected output:
