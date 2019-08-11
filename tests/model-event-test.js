@@ -11,6 +11,24 @@ const { ModelEvent } = require('../lib');
 const modelEvent = new ModelEvent();
 
 describe('EventParser', () => {
+	const sampleQuery = {
+		filters: {
+			client: 'core',
+			entity: 'test',
+			event: 'testing'
+		},
+		limit: 1
+	};
+
+	const sampleQueryResponse = [
+		{
+			client: 'core',
+			entity: 'test',
+			event: 'testing',
+			subscribers: ['https://test@test.com']
+		}
+	];
+
 	afterEach(() => {
 		sandbox.restore();
 	});
@@ -55,28 +73,33 @@ describe('EventParser', () => {
 		});
 	});
 
-	it('should return the event return by model package', async () => {
-		const events = [
-			{
-				client: 'core',
-				entity: 'test',
-				event: 'testing',
-				subscribers: ['https://test@test.com']
-			}
-		];
+	it('should return empty object when receive empty response from the model package', async () => {
 		sandbox
 			.stub(Model.prototype, 'get')
-			.withArgs({
-				filters: {
-					client: 'core',
-					entity: 'test',
-					event: 'testing'
-				},
-				limit: 1
-			})
-			.returns(events);
+			.withArgs(sampleQuery)
+			.returns(false);
 
 		const event = await modelEvent.getEvent('core', 'test', 'testing');
-		assert.deepStrictEqual(event, events[0]);
+		assert.deepStrictEqual(event, {});
+	});
+
+	it('should return empty object when receive empty array from model package', async () => {
+		sandbox
+			.stub(Model.prototype, 'get')
+			.withArgs(sampleQuery)
+			.returns([]);
+
+		const event = await modelEvent.getEvent('core', 'test', 'testing');
+		assert.deepStrictEqual(event, {});
+	});
+
+	it('should return the event return by model package', async () => {
+		sandbox
+			.stub(Model.prototype, 'get')
+			.withArgs(sampleQuery)
+			.returns(sampleQueryResponse);
+
+		const event = await modelEvent.getEvent('core', 'test', 'testing');
+		assert.deepStrictEqual(event, sampleQueryResponse[0]);
 	});
 });

@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/janis-commerce/event-parser.svg?branch=master)](https://travis-ci.org/janis-commerce/event-parser)
 [![Coverage Status](https://coveralls.io/repos/github/janis-commerce/event-parser/badge.svg?branch=master)](https://coveralls.io/github/janis-commerce/event-parser?branch=master)
 
-A package for parse the events and get the actions
+A package for parse the events and get the subscribers
 
 ## Installation
 
@@ -52,7 +52,7 @@ Insert into the events table in database declared on your settings
 	"entity" : "order",
 	"event" : "create",
 	"subscribers" : [
-		"your actions"
+		"your subscribers"
 		...
 	]
 }
@@ -86,7 +86,7 @@ const client = await EventParser.getSubscribers(message);
 
 /**
 	Expected output:
-	[...actions...]
+	[...subscribers...]
  */
 ```
 
@@ -116,6 +116,6 @@ const client = await EventParser.getSubscribers(message);
 
 /**
 	Expected output:
-	[...actions...]
+	[...subscribers...]
  */
 ```
