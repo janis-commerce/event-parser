@@ -59,6 +59,14 @@ describe('EventParser', () => {
 		assert.deepStrictEqual(ModelEvent.table, 'events');
 	});
 
+	it('Should return the fields for SQL query', () => {
+		assert.deepStrictEqual(ModelEvent.fields, {
+			client: true,
+			entity: true,
+			event: true
+		});
+	});
+
 	it('Should return table declared on settings', () => {
 		const settings = { table: 'testing' };
 		sandbox.stub(Settings, 'get').returns(settings);
