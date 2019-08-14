@@ -18,17 +18,22 @@
   "license": "ISC",
   "homepage": "https://github.com/janis-commerce/event-parser.git#readme",
   "devDependencies": {
-    "husky": "^2.4.1",
-    "eslint": "^5.16.0",
-    "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-plugin-import": "^2.17.3",
-    "mocha": "^5.2.0",
-    "nyc": "^13.1.0"
+    "eslint": "^6.1.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "husky": "^3.0.3",
+    "mocha": "^6.2.0",
+    "nyc": "^14.1.1",
+    "sinon": "^7.4.1"
   },
   "files": [
     "lib/"
   ],
   "directories": {
     "test": "tests"
+  },
+  "dependencies": {
+    "@janiscommerce/model": "^1.2.0",
+    "@janiscommerce/settings": "^1.0.1"
   }
 }
