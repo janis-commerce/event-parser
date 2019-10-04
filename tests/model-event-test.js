@@ -6,7 +6,7 @@ const Settings = require('@janiscommerce/settings');
 
 const sandbox = require('sinon').createSandbox();
 
-const { ModelEvent } = require('../lib');
+const ModelEvent = require('../lib/model-event');
 
 const modelEvent = new ModelEvent();
 

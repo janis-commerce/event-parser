@@ -4,9 +4,9 @@ const assert = require('assert');
 
 const sandbox = require('sinon').createSandbox();
 
-const Package = require('../index');
+const EventParser = require('../lib/event-parser');
 
-const { EventParser, ModelEvent } = require('../lib');
+const ModelEvent = require('../lib/model-event');
 
 describe('EventParser', () => {
 	const message = {
@@ -24,10 +24,6 @@ describe('EventParser', () => {
 
 	afterEach(() => {
 		sandbox.restore();
-	});
-
-	it('Should return and instance of event parser', () => {
-		assert.deepStrictEqual(Package, EventParser);
 	});
 
 	it('Should throw error when not receive message', async () => {
